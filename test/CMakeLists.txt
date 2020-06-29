@@ -1,3 +1,6 @@
+
+set(CMAKE_CXX_FLAGS "-ljson" )
+set(CMAKE_CXX_FLAGS "-lstdc++" )
 CUDA_ADD_EXECUTABLE(3D_reconstruction test.cpp)
 TARGET_LINK_LIBRARIES(3D_reconstruction 3D-Reconstruct)
 
@@ -5,5 +8,8 @@ CUDA_ADD_EXECUTABLE(Evaluation evaluation.cpp)
 TARGET_LINK_LIBRARIES(Evaluation 3D-Reconstruct)
 
 
+
+#include_directories(${Jsoncpp_INCLUDE_DIR})
 CUDA_ADD_EXECUTABLE(MICCAI_SGM MICCAI_SGM.cpp)
-TARGET_LINK_LIBRARIES(MICCAI_SGM 3D-Reconstruct)
+TARGET_LINK_LIBRARIES(MICCAI_SGM 3D-Reconstruct /usr/local/lib/libjsoncpp.a)# ${Jsoncpp_LIBRARY})
+

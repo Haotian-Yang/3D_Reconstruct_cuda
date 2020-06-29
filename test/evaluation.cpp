@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
     cv::Mat raw = cv::imread("../data/temp2.png", cv::IMREAD_UNCHANGED);
     //std::cout << raw.type() << std::endl;
-    cv::cvtColor(raw, raw, CV_BGR2BGRA);
+    cv::cvtColor(raw, raw, cv::COLOR_BGR2BGRA);
     cv::Mat channels[4];
     cv::split(raw, channels);
 

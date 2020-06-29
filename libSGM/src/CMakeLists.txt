@@ -2,11 +2,18 @@ cmake_minimum_required(VERSION 3.1)
 
 find_package(CUDA REQUIRED)
 
+#if(DEFINED AUTO_DETECT_ARCH AND "${AUTO_DETECT_ARCH}")
+#    CUDA_SELECT_NVCC_ARCH_FLAGS(ARCH_FLAGS "Auto")
+#   set(CUDA_ARCH "${ARCH_FLAGS}" CACHE STRING "Value of the NVCC -arch option." FORCE)
+#endif()
+#message(STATUS "CUDA_ARCH: \"${CUDA_ARCH}\"")
+
 include_directories(../include)
 
 if (CMAKE_COMPILER_IS_GNUCXX)
 	set(CMAKE_CXX_FLAGS "-O3 -Wall")
 	set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -std=c++11")
+    set(CMAKE_CXX_FLAGS "-fPIC" )
 endif()
 
 SET(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} ${CUDA_ARCH}")

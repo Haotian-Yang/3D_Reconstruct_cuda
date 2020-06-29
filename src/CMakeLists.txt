@@ -1,3 +1,5 @@
+include_directories(../libSGM/include)
+
 ADD_LIBRARY( 3D-Reconstruct SHARED
     config.cpp
     stereoCamera.cpp
@@ -8,4 +10,5 @@ ADD_LIBRARY( 3D-Reconstruct SHARED
     Evaluator.cpp)
 
 
-TARGET_LINK_LIBRARIES(3D-Reconstruct ${THIRD_PARTY_LIBRARIES} ${libSGM_LIB})
+#TARGET_LINK_LIBRARIES(3D-Reconstruct ${THIRD_PARTY_LIBRARIES} ${libSGM_LIB})
+TARGET_LINK_LIBRARIES(3D-Reconstruct ${THIRD_PARTY_LIBRARIES} sgm)

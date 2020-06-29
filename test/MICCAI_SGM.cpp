@@ -6,8 +6,12 @@
 #include <iostream>
 #include <fstream>
 #include <json/json.h>
-
-#include<common.h>
+#include <stdio.h>
+//#include <json/value.h>
+#include <json/reader.h>
+//include <nlohmann/json.hpp>
+//#include <jsoncpp/json/json.h>
+#include <common.h>
 #include <disparityCalculator.h>
 #include <depthCalculator.h>
 #include <CloudSaver.h>
@@ -17,12 +21,13 @@ cv::Mat getQMat(std::string repro_file){
     Json::Value matrix;
     Json::Reader reader;
     reader.parse(repro_data, matrix);
-    float q_0_0 = matrix["reprojection-matrix"][0][0].asFloat();
-    float q_0_3 = matrix["reprojection-matrix"][0][3].asFloat();
-    float q_1_1 = matrix["reprojection-matrix"][1][1].asFloat();
-    float q_1_3 = matrix["reprojection-matrix"][1][3].asFloat();
-    float q_2_3 = matrix["reprojection-matrix"][2][3].asFloat();
-    float q_3_2 = matrix["reprojection-matrix"][3][2].asFloat();
+    //float q_0_0 = matrix["reprojection-matrix"][0][0].asFloat();
+    float q_0_0 = matrix["reprojection-matrix"][0u][0u].asFloat();
+    float q_0_3 = matrix["reprojection-matrix"][0u][3u].asFloat();
+    float q_1_1 = matrix["reprojection-matrix"][1u][1u].asFloat();
+    float q_1_3 = matrix["reprojection-matrix"][1u][3u].asFloat();
+    float q_2_3 = matrix["reprojection-matrix"][2u][3u].asFloat();
+    float q_3_2 = matrix["reprojection-matrix"][3u][2u].asFloat();
     cv::Mat Q  = (cv::Mat_<float>(4,4) << q_0_0, 0.0, 0.0, q_0_3,
                                    0.0, q_1_1, 0.0, q_1_3,
                                    0.0, 0.0, 0.0, q_2_3,
@@ -43,7 +48,7 @@ int main(int argc, char **argv){
 
     //get the rootpath as default
     std::string rootpath;
-    rootpath = "/media/xiran_zhang/TOSHIBA EXT/MICCAI_SCARED/dataset2";
+    rootpath = "/media/10TB/EndoVis_depth/dataset_2";
     std::array<std::string, 3> keyframe= {"/keyframe_2", "/keyframe_3", "/keyframe_4"};
 
     for(auto k : keyframe){
@@ -52,6 +57,7 @@ int main(int argc, char **argv){
         std::string left_path = rootpath + k + data + "/left_finalpass";
         std::string right_path = rootpath + k + data + "/right_finalpass";
         std::string scene_path = rootpath + k + data + "/scene_points_sgm";
+        mkdir(scene_path.c_str(),0777); 
         std::string repro_mat_path = rootpath + k + data +"/reprojection_data";
 
         DisparityCalculator DispC;
@@ -97,7 +103,7 @@ int main(int argc, char **argv){
             d_depth.download(depth);
 
             std::cout << "disp type: " << disp.type() << ",disp size: " << disp.size << std::endl;
-            //disp.convertTo(disp, CV_8U);
+            disp.convertTo(disp, CV_8U);
             //cv::imshow("disp", disp);
             //cv::waitKey();
             std::cout << scene << std::endl;
